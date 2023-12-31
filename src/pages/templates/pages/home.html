@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Home</h1>
+    <div class="">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="">Logout</a>
+            <a href="{% url 'services:all' %}" class="">Services</a>
+            {% comment %} {% if request.user.is_provider %}
+                <ul>
+                    {% for booking in bookings %}
+                    <li>{{ booking.service.name }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %} {% endcomment %}
+        {% else %}
+            <a href="{% url 'login' %}" class="">Log in</a>
+            <a href="{% url 'registration:signup' %}" class="">Sign Up</a>
+        {% endif %}
+    </div>
+{% endblock %}

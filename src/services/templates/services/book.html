@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        Book {{ service.name }}
+    </h1>
+
+    <h2>Availibility</h2>
+    <ul>
+        {% for schedule in schedules %}
+            <li>
+                {% if schedule.day == 0 %}
+                    Monday
+                {% elif schedule.day == 1 %}
+                    Tuesday
+                {% elif schedule.day == 2 %}
+                    Wednesday
+                {% elif schedule.day == 3 %}
+                    Thursday
+                {% elif schedule.day == 4 %}
+                    Friday
+                {% elif schedule.day == 5 %}
+                    Saturday
+                {% elif schedule.day == 6 %}
+                    Sunday
+                {% endif %}
+            </li>
+            <ul>
+                {% for hour in schedule.get_available_hours %}
+                    <li>{{ hour }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+    <form class="" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.date.errors }}
+            <label class="form-label" for="{{ form.date.id_for_label }}">Date:</label>
+            {{ form.date }}
+        </div>
+        <div class="mb-3">
+            {{ form.start_time.errors }}
+            <label class="form-label" for="{{ form.start_time.id_for_label }}">Time:</label>
+            {{ form.start_time }}
+        </div>
+        <button type="submit" class="">
+            Book
+        </button>
+    </form>
+{% endblock content %}
