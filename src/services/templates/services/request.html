@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        {{ service.name }}
+    </h1>
+
+    {% comment %} <ul>
+        {% for schedule in schedules %}
+            <li>
+                {% if schedule.day == 0 %}
+                    <strong>Monday: </strong> {{ schedule.opening_time }} - {{ schedule.closing_time }}
+                {% elif schedule.day == 1 %}
+                    <strong>Tuesday: </strong> {{ schedule.opening_time }} - {{ schedule.closing_time }}
+                {% elif schedule.day == 2 %}
+                    <strong>Wednesday: </strong> {{ schedule.opening_time }} - {{ schedule.closing_time }}
+                {% elif schedule.day == 3 %}
+                    <strong>Thursday: </strong> {{ schedule.opening_time }} - {{ schedule.closing_time }}
+                {% elif schedule.day == 4 %}
+                    <strong>Friday: </strong> {{ schedule.opening_time }} - {{ schedule.closing_time }}
+                {% elif schedule.day == 5 %}
+                    <strong>Saturday: </strong> {{ schedule.opening_time }} - {{ schedule.closing_time }}
+                {% elif schedule.day == 6 %}
+                    <strong>Sunday: </strong> {{ schedule.opening_time }} - {{ schedule.closing_time }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul> {% endcomment %}
+    <form class="" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.inquiry.errors }}
+            <label class="form-label" for="{{ form.inquiry.id_for_label }}">Inquiry:</label>
+            {{ form.inquiry }}
+        </div>
+        <div class="mb-3">
+            {{ form.desired_date.errors }}
+            <label class="form-label" for="{{ form.desired_date.id_for_label }}">Desired Date:</label>
+            {{ form.desired_date }}
+        </div>
+        <div class="mb-3">
+            {{ form.desired_time.errors }}
+            <label class="form-label" for="{{ form.desired_time.id_for_label }}">Desired Time:</label>
+            {{ form.desired_time }}
+        </div>
+        <button type="submit" class="">
+            Send
+        </button>
+    </form>
+{% endblock content %}

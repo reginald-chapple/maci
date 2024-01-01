@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 
 from users.decorators import provider_required, client_required
 from providers.models import Schedule
-from services.forms import ServiceForm, BookingForm
+from services.forms import ServiceForm, BookingForm, ServiceRequestForm
 from services.models import Service, Category, Booking
 
 """_summary_: view that returns all services
@@ -25,7 +25,6 @@ def create(request):
     
     if form.is_valid():
         c = form.save(commit=False)
-        c.provider = request.user.provider
         c.save()
         return redirect("home")
         
@@ -42,7 +41,7 @@ def details(request, id):
 
 @login_required
 @client_required
-def book(request, id):
+def service_request(request, id):
     if request.user.client == None:
         return redirect('forbidden')
     
@@ -55,21 +54,49 @@ def book(request, id):
         return redirect('not-found')
     
     context ={}
-    form = BookingForm(request.POST or None)
-    schedules = Schedule.objects.filter(provider=service.provider)
+    form = ServiceRequestForm(request.POST or None)
     
     if form.is_valid():
         c = form.save(commit=False)
-        combined_datetime = datetime.combine(c.date.today(), c.start_time) + service.duration
+        c.status = 'pending'
         c.client = request.user.client
-        c.is_open = True
-        c.end_time = combined_datetime.time()
-        c.service = { "id": service.pk, "name": service.name, "price_per_hour": service.price_per_hour }
-        c.status = "pending"
-        c.schedule = schedules.get(day=c.date.weekday())
+        c.service = service
         c.save()
         return redirect('home')
    
     context['form']= form
-    context['schedules'] = schedules
-    return render(request, "services/book.html", context)
+    return render(request, "services/request.html", context)    
+
+# @login_required
+# @client_required
+# def book(request, id):
+#     if request.user.client == None:
+#         return redirect('forbidden')
+    
+#     if id == None:
+#         return redirect('not-found')
+    
+#     service = Service.objects.get(id = id)
+    
+#     if service == None:
+#         return redirect('not-found')
+    
+#     context ={}
+#     form = BookingForm(request.POST or None)
+#     schedules = Schedule.objects.filter(provider=service.provider)
+    
+#     if form.is_valid():
+#         c = form.save(commit=False)
+#         combined_datetime = datetime.combine(c.date.today(), c.start_time) + service.duration
+#         c.client = request.user.client
+#         c.is_open = True
+#         c.end_time = combined_datetime.time()
+#         c.service = { "id": service.pk, "name": service.name, "price_per_hour": service.price_per_hour }
+#         c.status = "pending"
+#         c.schedule = schedules.get(day=c.date.weekday())
+#         c.save()
+#         return redirect('home')
+   
+#     context['form']= form
+#     context['schedules'] = schedules
+#     return render(request, "services/book.html", context)

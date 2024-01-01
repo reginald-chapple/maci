@@ -6,32 +6,6 @@
     </h1>
 
     <h2>Availibility</h2>
-    <ul>
-        {% for schedule in schedules %}
-            <li>
-                {% if schedule.day == 0 %}
-                    Monday
-                {% elif schedule.day == 1 %}
-                    Tuesday
-                {% elif schedule.day == 2 %}
-                    Wednesday
-                {% elif schedule.day == 3 %}
-                    Thursday
-                {% elif schedule.day == 4 %}
-                    Friday
-                {% elif schedule.day == 5 %}
-                    Saturday
-                {% elif schedule.day == 6 %}
-                    Sunday
-                {% endif %}
-            </li>
-            <ul>
-                {% for hour in schedule.get_available_hours %}
-                    <li>{{ hour }}</li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    </ul>
     <form class="" method="POST">
         {% csrf_token %}
         <div class="mb-3">

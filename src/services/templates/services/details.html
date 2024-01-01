@@ -5,6 +5,6 @@
         {{ service.name }}
     </h1>
     <p>
-        <a href="{% url "services:book" id=service.id %}">Book</a>
+        <a href="{% url "services:request" id=service.id %}">Send Request</a>
     </p>
 {% endblock content %}
