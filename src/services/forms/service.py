@@ -1,6 +1,7 @@
 from django import forms
 
-from services.models import Service, Category
+from classifications.models import Category
+from services.models import Service
 
 class ServiceForm(forms.ModelForm):
     name = forms.CharField(max_length=255, min_length=3, strip=True, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))

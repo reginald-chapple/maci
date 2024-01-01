@@ -49,8 +49,9 @@ class User(AbstractUser):
     country = models.CharField(_("country"), max_length=50, null=True, blank=True)
     state = models.CharField(_("state"), max_length=50, null=True, blank=True)
     zip = models.CharField(_("zip"), max_length=12, null=True, blank=True)
-    is_client = models.BooleanField(_('client status'), default=False, blank=True)
-    is_provider = models.BooleanField(_('provider status'), default=False, blank=True)
+    borrowers_rating = models.FloatField(_("borrower's rating"), default=0.0, blank=True)
+    loaners_rating = models.FloatField(_("loaner's rating"), default=0.0, blank=True)
+    is_member = models.BooleanField(_('member status'), default=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

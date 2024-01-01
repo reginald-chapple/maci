@@ -1,9 +1,9 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from services.models import Service
-from users.models import Client
 
 class ServiceRequest(models.Model):
     inquiry = models.TextField(_("inquiry"), blank=True)
@@ -15,7 +15,7 @@ class ServiceRequest(models.Model):
         ('accepted', 'Accepted'),
         ('declined', 'Declined'),
     ])
-    client = models.ForeignKey(Client, 
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, 
         verbose_name=_("client"), 
         on_delete=models.CASCADE, 
         related_name="service_requests", 

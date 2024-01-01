@@ -2,10 +2,9 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from users.decorators import provider_required, client_required
-from providers.models import Schedule
+from users.decorators import member_required
 from services.forms import ServiceForm, BookingForm, ServiceRequestForm
-from services.models import Service, Category, Booking
+from services.models import Service, Booking
 
 """_summary_: view that returns all services
 """
@@ -18,7 +17,7 @@ def all(request):
 """_summary_: view that creates a service
 """
 @login_required
-@provider_required
+@member_required
 def create(request):
     context ={}
     form = ServiceForm(request.POST or None)
@@ -40,7 +39,7 @@ def details(request, id):
     return render(request, "services/details.html", context)
 
 @login_required
-@client_required
+@member_required
 def service_request(request, id):
     if request.user.client == None:
         return redirect('forbidden')
@@ -59,7 +58,7 @@ def service_request(request, id):
     if form.is_valid():
         c = form.save(commit=False)
         c.status = 'pending'
-        c.client = request.user.client
+        c.client = request.user
         c.service = service
         c.save()
         return redirect('home')

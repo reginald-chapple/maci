@@ -1,9 +1,9 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from providers.models import Schedule
-from users.models import Client
+from users.models import Schedule
 
 # class BookingManager(models.Manager):
 #     def filter_by_provider(self, provider):
@@ -11,8 +11,9 @@ from users.models import Client
 
 
 class Booking(models.Model):
-    client = models.ForeignKey(Client, verbose_name=_("client"), on_delete=models.CASCADE, related_name="bookings", null=True, blank=True)
-    schedules = models.ManyToManyField(Schedule, verbose_name=_("schedule"), related_name="bookings", blank=True)
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("client"), on_delete=models.CASCADE, related_name="bookings", null=True, blank=True)
+    schedule = models.ForeignKey(Schedule, verbose_name=_("schedule"), on_delete=models.SET_NULL, related_name="bookings", null=True, blank=True)
+    # schedule = models.ManyToManyField(Schedule, verbose_name=_("schedule"), related_name="bookings", blank=True)
     service = models.JSONField(_("service"), default=dict, blank=True)
     start_time = models.TimeField(_("start time"), null=False, blank=True)
     end_time = models.TimeField(_("end time"), null=True, blank=True)

@@ -2,9 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from users.models import User, Client
-
-admin.site.register(Client)
+from users.models import User
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
@@ -22,8 +20,10 @@ class UserAdmin(DjangoUserAdmin):
             'city',
             'state', 
             'country',
+            'borrowers_rating',
+            'loaners_rating',
         )}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_provider', 'is_client', 'groups', 'user_permissions')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_member', 'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
@@ -32,7 +32,7 @@ class UserAdmin(DjangoUserAdmin):
             'fields': ('username', 'email', 'name', 'password1', 'password2'),
         }),
     )
-    list_display = ('username', 'name', 'is_staff', 'is_provider', 'is_client',)
-    list_filter = ('is_staff', 'is_provider', 'is_client',)
+    list_display = ('username', 'name', 'is_staff', 'is_member',)
+    list_filter = ('is_staff', 'is_member',)
     search_fields = ('username', 'email', 'name',)
     ordering = ('username',)

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'pages',
     'error_pages',
     'users',
-    'providers',
+    'classifications',
     'services',
 ]
 

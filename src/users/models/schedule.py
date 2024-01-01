@@ -1,17 +1,17 @@
 from datetime import timedelta
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from providers.choices import DAY_OF_WEEK_CHOICES
-from providers.models import Provider
+from users.choices import DAY_OF_WEEK_CHOICES
 
 class Schedule(models.Model):
     day = models.PositiveSmallIntegerField(_("day of week"), choices=DAY_OF_WEEK_CHOICES, null=False, blank=True)
     opening_time = models.TimeField(_("opening time"), null=False, blank=True)
     closing_time = models.TimeField(_("closing time"), null=False, blank=True)
-    provider = models.ForeignKey(Provider, 
+    provider = models.ForeignKey(settings.AUTH_USER_MODEL, 
         verbose_name=_("provider"), 
         on_delete=models.CASCADE, 
         related_name="schedules", 

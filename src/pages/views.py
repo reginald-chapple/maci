@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
 
-from providers.models import Schedule
-
 def home(request):
     context = {}
     # if request.user.is_authenticated and request.user.is_provider:
